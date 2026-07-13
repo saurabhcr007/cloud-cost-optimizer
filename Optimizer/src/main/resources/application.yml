@@ -1,0 +1,68 @@
+spring:
+  application:
+    name: cloud-cost-optimizer
+  
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+  
+  main:
+    allow-bean-definition-overriding: true
+  
+  # Jackson
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+# Server
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# OpenAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+
+# AWS SDK v2
+aws:
+  region:
+    static: us-east-1
+  credentials:
+    provider: default
+  retry:
+    mode: standard
+    max-attempts: 3
+
+# Cost Optimizer specific
+cloud-cost-optimizer:
+  scan:
+    enabled: true
+    default-regions:
+      - us-east-1
+      - us-west-2
+      - eu-west-1
+    batch-size: 100
+    interval-hours: 6
+  recommendation:
+    enabled: true
+    cpu-threshold: 20.0
+    memory-threshold: 30.0
+    storage-threshold: 80.0
+    idle-days: 7
+  notification:
+    enabled: true
+    email:
+      enabled: false
+      from: noreply@cloudcostoptimizer.com
+    webhook:
+      enabled: false
+      url: ""
